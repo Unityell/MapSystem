@@ -7,6 +7,7 @@ using System.Linq;
 public class SaveLoadSystem : BaseSignal
 {
     [Inject] EventBus EventBus;
+    [SerializeField, ReadOnly] string LoadPath;
 
     private const string SaveFileName = "PinList.json";
     private Dictionary<string, PinSetupStruct> PinList = new Dictionary<string, PinSetupStruct>();
@@ -36,12 +37,12 @@ public class SaveLoadSystem : BaseSignal
 
     void Load()
     {
-        string FullPath = Path.Combine(Application.persistentDataPath, SaveFileName);
+        LoadPath = Path.Combine(Application.persistentDataPath, SaveFileName);
 
-        if (File.Exists(FullPath))
+        if (File.Exists(LoadPath))
         {
-            string Json = File.ReadAllText(FullPath);
-            Debug.Log(FullPath);
+            string Json = File.ReadAllText(LoadPath);
+            Debug.Log(LoadPath);
             var Serialization = JsonUtility.FromJson<Serialization<PinSetupStruct>>(Json);
             PinList.Clear();
 
